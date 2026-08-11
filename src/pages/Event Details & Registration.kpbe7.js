@@ -11,9 +11,15 @@ function formatAnonymousAttendees(count) {
     const icons = Array(visibleIcons).fill("👤").join(" ");
     const remaining = count - visibleIcons;
     const more = remaining > 0 ? ` +${remaining}` : "";
-    const label = `${count} ${count === 1 ? "attendee" : "attendees"}`;
+    const label = count === 1 ? "attendee" : "attendees";
 
-    return `${icons}${more}   ${label}`.trim();
+    return [
+        '<p style="text-align: center; line-height: 1.2;">',
+        `<span style="font-size: 32px; font-weight: 700;">${count}</span>`,
+        `<span style="font-size: 20px; font-weight: 600;"> ${label}</span><br>`,
+        `<span style="font-size: 16px; color: #4f5660;">${icons}${more}</span>`,
+        "</p>"
+    ].join("");
 }
 
 async function renderAttendeeCount() {
@@ -22,7 +28,7 @@ async function renderAttendeeCount() {
 
     try {
         const count = await getAttendeeCount(currentEventSlug());
-        attendeeCounter.text = formatAnonymousAttendees(count);
+        attendeeCounter.html = formatAnonymousAttendees(count);
     } catch (error) {
         console.error("Unable to load attendee count", error);
         attendeeCounter.text = "Attendee count unavailable";
