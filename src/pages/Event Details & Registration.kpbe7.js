@@ -7,26 +7,16 @@ function currentEventSlug() {
 }
 
 async function renderAttendeeCount() {
-    const attendeeCounter = $w("#guestList3");
-    await attendeeCounter.collapse();
-    attendeeCounter.setAttribute("preview-state", "empty");
-    attendeeCounter.setAttribute("empty-message", "Loading attendees…");
+    const attendeeCounter = $w("#attendeeCountText");
+    attendeeCounter.text = "Loading attendees…";
 
     try {
         const count = await getAttendeeCount(currentEventSlug());
-        attendeeCounter.setAttribute(
-            "empty-message",
-            `${count} ${count === 1 ? "attendee" : "attendees"}`,
-        );
+        attendeeCounter.text = `${count} ${count === 1 ? "attendee" : "attendees"}`;
     } catch (error) {
         console.error("Unable to load attendee count", error);
-        attendeeCounter.setAttribute(
-            "empty-message",
-            "Attendee count unavailable",
-        );
+        attendeeCounter.text = "Attendee count unavailable";
     }
-
-    await attendeeCounter.expand();
 }
 
 $w.onReady(function () {
