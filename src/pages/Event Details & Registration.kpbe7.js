@@ -14,10 +14,10 @@ function formatAnonymousAttendees(count) {
     const label = count === 1 ? "attendee" : "attendees";
 
     return [
-        '<p style="text-align: center; line-height: 1.2;">',
-        `<span style="font-size: 32px; font-weight: 700;">${count}</span>`,
-        `<span style="font-size: 20px; font-weight: 600;"> ${label}</span><br>`,
-        `<span style="font-size: 16px; color: #4f5660;">${icons}${more}</span>`,
+        '<p style="text-align: center; line-height: 1.1;">',
+        `<span style="font-size: 28px; font-weight: 700;">${count}</span>`,
+        `<span style="font-size: 17px; font-weight: 600;"> ${label}</span>`,
+        `<span style="font-size: 14px; color: #4f5660;"> · ${icons}${more}</span>`,
         "</p>"
     ].join("");
 }
