@@ -7,7 +7,7 @@ function currentEventSlug() {
 }
 
 function formatAnonymousAttendees(count) {
-    const visibleIcons = Math.min(count, 8);
+    const visibleIcons = Math.min(count, 6);
     const icons = Array(visibleIcons).fill("👤").join(" ");
     const remaining = count - visibleIcons;
     const more = remaining > 0 ? ` +${remaining}` : "";
