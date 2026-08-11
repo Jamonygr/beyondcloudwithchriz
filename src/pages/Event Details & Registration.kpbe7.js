@@ -1,10 +1,35 @@
-// API Reference: https://www.wix.com/velo/reference/api-overview/introduction
-// “Hello, World!” Example: https://learn-code.wix.com/en/article/hello-world
+import wixLocationFrontend from "wix-location-frontend";
+import { getAttendeeCount } from "backend/attendance.web";
+
+function currentEventSlug() {
+    const path = wixLocationFrontend.path;
+    return path[path.length - 1] || "";
+}
+
+async function renderAttendeeCount() {
+    const attendeeCounter = $w("#guestList3");
+    await attendeeCounter.collapse();
+    attendeeCounter.setAttribute("preview-state", "empty");
+    attendeeCounter.setAttribute("empty-message", "Loading attendees…");
+
+    try {
+        const count = await getAttendeeCount(currentEventSlug());
+        attendeeCounter.setAttribute(
+            "empty-message",
+            `${count} ${count === 1 ? "attendee" : "attendees"}`,
+        );
+    } catch (error) {
+        console.error("Unable to load attendee count", error);
+        attendeeCounter.setAttribute(
+            "empty-message",
+            "Attendee count unavailable",
+        );
+    }
+
+    await attendeeCounter.expand();
+}
 
 $w.onReady(function () {
-    // Write your JavaScript here
-
-    // To select an element by ID use: $w('#elementID')
-
-    // Click 'Preview' to run your code
+    renderAttendeeCount();
+    wixLocationFrontend.onChange(renderAttendeeCount);
 });
